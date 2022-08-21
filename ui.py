@@ -22,6 +22,12 @@ class UserInterface:
         self.password_label.grid(row=3, column=0)
 
         # INPUTS
+        self.website_input = tkinter.Entry(width=35)
+        self.website_input.grid(row=1, column=1, columnspan=2)
+        self.email_username_input = tkinter.Entry(width=35)
+        self.email_username_input.grid(row=2, column=1, columnspan=2)
+        self.password_input = tkinter.Entry(width=21)
+        self.password_input.grid(row=3, column=1, columnspan=1, sticky="ew")
 
         # BUTTONS
 
