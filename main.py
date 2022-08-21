@@ -1,7 +1,8 @@
-print("hello pass man GUI")
+from ui import UserInterface
 
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 
 # ---------------------------- SAVE PASSWORD ------------------------------- #
 
 # ---------------------------- UI SETUP ------------------------------- #
+gui = UserInterface()
