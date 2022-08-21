@@ -30,5 +30,9 @@ class UserInterface:
         self.password_input.grid(row=3, column=1, columnspan=1, sticky="ew")
 
         # BUTTONS
+        self.generate_password_button = tkinter.Button(width=10, text="Generate Password", font=("Arial", 10, "normal"))
+        self.generate_password_button.grid(row=3, column=2, sticky="nesw")
+        self.add_button = tkinter.Button(text="Add")
+        self.add_button.grid(row=4, column=1, columnspan=2, sticky="nesw")
 
         self.window.mainloop()
