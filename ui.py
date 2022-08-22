@@ -1,4 +1,5 @@
 import tkinter
+from tkinter import messagebox
 
 
 class UserInterface:
@@ -45,7 +46,16 @@ class UserInterface:
         email = self.email_username_input.get()
         password = self.password_input.get()
 
-        with open("data.txt", "a") as data_file:
-            data_file.write(f"{website} | {email} | {password} \n")
-            self.website_input.delete(0, tkinter.END)
-            self.password_input.delete(0, tkinter.END)
+        is_ok = messagebox.askokcancel(
+            title=website,
+            message=f"These are the details entered: "
+                    f"\nEmail: {email} "
+                    f"\nPassword: {password} "
+                    f"\nIs it ok to save?"
+        )
+
+        if is_ok:
+            with open("data.txt", "a") as data_file:
+                data_file.write(f"{website} | {email} | {password} \n")
+                self.website_input.delete(0, tkinter.END)
+                self.password_input.delete(0, tkinter.END)
