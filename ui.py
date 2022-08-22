@@ -24,8 +24,10 @@ class UserInterface:
 
         # INPUTS
         self.website_input = tkinter.Entry(width=30)
+        self.website_input.focus_set()
         self.website_input.grid(row=1, column=1, columnspan=2, sticky="ew")
         self.email_username_input = tkinter.Entry(width=30)
+        self.email_username_input.insert(0, "justincueva02@gmail.com")
         self.email_username_input.grid(row=2, column=1, columnspan=2, sticky="ew")
         self.password_input = tkinter.Entry()
         self.password_input.grid(row=3, column=1, columnspan=1, sticky="ew")
@@ -33,7 +35,17 @@ class UserInterface:
         # BUTTONS
         self.generate_password_button = tkinter.Button(text="Generate Password", font=("Arial", 12, "normal"))
         self.generate_password_button.grid(row=3, column=2, sticky="nesw")
-        self.add_button = tkinter.Button(text="Add")
+        self.add_button = tkinter.Button(text="Add", command=self.save)
         self.add_button.grid(row=4, column=1, columnspan=2, sticky="nesw")
 
         self.window.mainloop()
+
+    def save(self):
+        website = self.website_input.get()
+        email = self.email_username_input.get()
+        password = self.password_input.get()
+
+        with open("data.txt", "a") as data_file:
+            data_file.write(f"{website} | {email} | {password} \n")
+            self.website_input.delete(0, tkinter.END)
+            self.password_input.delete(0, tkinter.END)
