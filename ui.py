@@ -35,7 +35,17 @@ class UserInterface:
         # BUTTONS
         self.generate_password_button = tkinter.Button(text="Generate Password", font=("Arial", 12, "normal"))
         self.generate_password_button.grid(row=3, column=2, sticky="nesw")
-        self.add_button = tkinter.Button(text="Add")
+        self.add_button = tkinter.Button(text="Add", command=self.save)
         self.add_button.grid(row=4, column=1, columnspan=2, sticky="nesw")
 
         self.window.mainloop()
+
+    def save(self):
+        website = self.website_input.get()
+        email = self.email_username_input.get()
+        password = self.password_input.get()
+
+        with open("data.txt", "a") as data_file:
+            data_file.write(f"{website} | {email} | {password} \n")
+            self.website_input.delete(0, tkinter.END)
+            self.password_input.delete(0, tkinter.END)
