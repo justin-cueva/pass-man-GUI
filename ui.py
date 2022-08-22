@@ -24,8 +24,10 @@ class UserInterface:
 
         # INPUTS
         self.website_input = tkinter.Entry(width=30)
+        self.website_input.focus_set()
         self.website_input.grid(row=1, column=1, columnspan=2, sticky="ew")
         self.email_username_input = tkinter.Entry(width=30)
+        self.email_username_input.insert(0, "justincueva02@gmail.com")
         self.email_username_input.grid(row=2, column=1, columnspan=2, sticky="ew")
         self.password_input = tkinter.Entry()
         self.password_input.grid(row=3, column=1, columnspan=1, sticky="ew")
