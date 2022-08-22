@@ -1,6 +1,7 @@
 import random
 import tkinter
 from tkinter import messagebox
+import pyperclip
 
 
 class UserInterface:
@@ -70,8 +71,9 @@ class UserInterface:
         for char in password_list:
             password += char
 
-        # self.password_input.delete(0, tkinter.END)
-        # self.password_input.insert(0, password)
+        pyperclip.copy(password)
+        self.password_input.delete(0, tkinter.END)
+        self.password_input.insert(0, password)
 
     def save(self):
         website = self.website_input.get()
