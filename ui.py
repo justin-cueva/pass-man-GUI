@@ -27,7 +27,7 @@ class UserInterface:
         self.password_label.grid(row=3, column=0)
 
         # INPUTS
-        self.website_input = tkinter.Entry(width=30)
+        self.website_input = tkinter.Entry()
         self.website_input.focus_set()
         self.website_input.grid(row=1, column=1, columnspan=2, sticky="ew")
         self.email_username_input = tkinter.Entry(width=30)
@@ -42,8 +42,26 @@ class UserInterface:
         self.generate_password_button.grid(row=3, column=2, sticky="nesw")
         self.add_button = tkinter.Button(text="Add", command=self.save)
         self.add_button.grid(row=4, column=1, columnspan=2, sticky="nesw")
+        self.search_button =tkinter.Button(text="Search", command=self.search_passwords)
+        self.search_button.grid(row=1, column=2, sticky="ew")
 
         self.window.mainloop()
+
+    def search_passwords(self):
+        searched = self.website_input.get()
+        try:
+            with open("data.json", "r") as data_file:
+                data = json.load(data_file)
+                try:
+                    email_searched = data[f"{searched}"]["email"]
+                    pas_searched = data[f"{searched}"]["password"]
+                except KeyError:
+                    messagebox.showinfo(title="Oops", message=f"we have no data for the website: {searched}")
+                else:
+                    messagebox.showinfo(title=searched, message=f"email: {email_searched}\n"
+                                                                f"password: {pas_searched}")
+        except FileNotFoundError:
+            messagebox.showinfo(title="Oops", message=f"we have no data for the website: {searched}")
 
     def generate_password(self):
         letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
@@ -92,15 +110,20 @@ class UserInterface:
         if len(website) == 0 or len(password) == 0 or len(email) == 0:
             messagebox.showinfo(title="Oops", message="Please make sure that you haven't left any fields empty")
         else:
-            with open("data.json", "r") as data_file:
-                # Reading old data
-                data = json.load(data_file)
+            try:
+                with open("data.json", "r") as data_file:
+                    # Reading old data
+                    data = json.load(data_file)
+            except FileNotFoundError:
+                with open("data.json", "w") as new_data_file:
+                    # Creating new data file
+                    json.dump(new_data, new_data_file, indent=4)
+            else:
                 # Updating old data with new data
                 data.update(new_data)
-
-            with open("data.json", "w") as data_file:
-                # Saving updated data
-                json.dump(data, data_file, indent=4)
-                
+                with open("data.json", "w") as data_file:
+                    # Saving updated data
+                    json.dump(data, data_file, indent=4)
+            finally:
                 self.website_input.delete(0, tkinter.END)
                 self.password_input.delete(0, tkinter.END)
