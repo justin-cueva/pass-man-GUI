@@ -2,6 +2,7 @@ import random
 import tkinter
 from tkinter import messagebox
 import pyperclip
+import json
 
 
 class UserInterface:
@@ -36,7 +37,8 @@ class UserInterface:
         self.password_input.grid(row=3, column=1, columnspan=1, sticky="ew")
 
         # BUTTONS
-        self.generate_password_button = tkinter.Button(text="Generate Password", command=self.generate_password,font=("Arial", 12, "normal"))
+        self.generate_password_button = tkinter.Button(text="Generate Password", command=self.generate_password,
+                                                       font=("Arial", 12, "normal"))
         self.generate_password_button.grid(row=3, column=2, sticky="nesw")
         self.add_button = tkinter.Button(text="Add", command=self.save)
         self.add_button.grid(row=4, column=1, columnspan=2, sticky="nesw")
@@ -80,18 +82,25 @@ class UserInterface:
         email = self.email_username_input.get()
         password = self.password_input.get()
 
+        new_data = {
+            website: {
+                "email": email,
+                "password": password,
+            }
+        }
+
         if len(website) == 0 or len(password) == 0 or len(email) == 0:
             messagebox.showinfo(title="Oops", message="Please make sure that you haven't left any fields empty")
         else:
-            is_ok = messagebox.askokcancel(
-                title=website,
-                message=f"These are the details entered: "
-                        f"\nEmail: {email} "
-                        f"\nPassword: {password} "
-                        f"\nIs it ok to save?"
-            )
-            if is_ok:
-                with open("data.txt", "a") as data_file:
-                    data_file.write(f"{website} | {email} | {password} \n")
-                    self.website_input.delete(0, tkinter.END)
-                    self.password_input.delete(0, tkinter.END)
+            with open("data.json", "r") as data_file:
+                # Reading old data
+                data = json.load(data_file)
+                # Updating old data with new data
+                data.update(new_data)
+
+            with open("data.json", "w") as data_file:
+                # Saving updated data
+                json.dump(data, data_file, indent=4)
+                
+                self.website_input.delete(0, tkinter.END)
+                self.password_input.delete(0, tkinter.END)
